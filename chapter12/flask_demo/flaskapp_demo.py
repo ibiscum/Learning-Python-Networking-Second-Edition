@@ -1,6 +1,6 @@
 #!/usr/local/bin/python3
 
-from flask import Flask, abort
+from flask import Flask, abort, escape
 
 app = Flask(__name__)
 app.debug = True
@@ -23,8 +23,8 @@ def index():
 def show_docstring(func_name):
 	func_name = func_name.lower()
 	if func_name in docstrings:
-		output = '<h1>{}</h1>\n'.format(func_name)
-		output += '<pre>{}</pre>'.format(docstrings[func_name])
+		output = '<h1>{}</h1>\n'.format(escape(func_name))
+		output += '<pre>{}</pre>'.format(escape(docstrings[func_name]))
 		return output
 	else:
 		abort(404)
