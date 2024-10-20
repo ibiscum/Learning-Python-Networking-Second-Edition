@@ -7,7 +7,7 @@ class ShellHandler:
 
     def __init__(self, host, user, psw): 
         self.ssh = paramiko.SSHClient() 
-        self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy()) 
+        self.ssh.set_missing_host_key_policy(paramiko.RejectPolicy()) 
         self.ssh.connect(host, username=user, password=psw, port=22) 
 
         channel = self.ssh.invoke_shell() 
