@@ -14,7 +14,11 @@ if __name__ == '__main__':
 	client_sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 	client_sock.connect((hostname, 443))
 	# Turn the socket over to the SSL library
-	ssl_socket = ssl.wrap_socket(client_sock, ssl_version=ssl.PROTOCOL_TLSv1,cert_reqs=ssl.CERT_REQUIRED, ca_certs=CA_CERT_PATH)
+	context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+	context.minimum_version = ssl.TLSVersion.TLSv1_2
+	context.verify_mode = ssl.CERT_REQUIRED
+	context.load_verify_locations(CA_CERT_PATH)
+	ssl_socket = context.wrap_socket(client_sock, server_hostname=hostname)
 	print(ssl_socket.cipher())
 	try:
 		ssl.match_hostname(ssl_socket.getpeercert(), hostname)
